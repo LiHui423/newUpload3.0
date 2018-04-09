@@ -1,0 +1,68 @@
+.upload-component{
+    position: absolute;
+    z-index:99;
+    top:50%;
+    left:50%;
+    margin-left:-120px;
+    margin-top:-60px;
+    width:240px;
+    height:120px;
+    background-color:#FFFFFF;
+    display:none;
+    border-radius:5px;
+}
+.upload-close{
+    position: relative;
+    height:30px;
+    background-color: rgb(234,234,234);
+}
+.upload-close span{
+    position: absolute;
+    right:15px;
+    line-height:30px;
+    cursor: pointer;
+}
+.upload-content,.confirm-cancel{
+    margin-top:15px;
+}
+.progress{
+    position:relative;
+    width:90%;
+    height:22px;
+    margin-left:4.88888%;
+    text-align: center;
+    line-height:22px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+.upload-text{
+    position:absolute;
+    z-index:99999;
+    color:#fff;
+    left:75px;
+}
+.uploaded{
+    position:absolute;
+    left:0;
+    z-index:9999;
+    width:0%;
+    height:100%;
+    background-color: #FF527C;
+    color:#F0F0F0;
+    border-radius:5px;
+}
+.confirm-cancel span{
+    display:inline-block;
+    width:60px;
+    height:30px;
+    line-height:30px;
+    text-align: center;
+    background-color:#ccc;
+    cursor:wait;
+}
+.confirm{
+    margin-left:40%;
+}
+.cancel{
+    margin-left:10px;
+}

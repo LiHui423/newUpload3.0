@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+        <link rel="stylesheet" href="css/uploadProgress.css">
+		<script src="jquery-3.2.1.min.js"></script>
+		<style>
+			#myUpload{
+				cursor: pointer;
+                padding-bottom:100px;
+			}
+            #myUpload>span{
+                margin-bottom:10px;
+            }
+			.file-temp-btn {
+				position: absolute;
+				display: inline-block;
+				top: 4px;
+				left: 4px;
+				width: 18px;
+				height: 18px;
+				line-height: 18px;
+				text-align: center;
+				border: 1px solid #ddd;
+				background-color: #ccc;
+				border-radius: 50%;
+				color: #fff;
+				font-size: 18px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="myUpload">
+            <span>选择文件</span>
+        </div>
+        <button id="mySubmitBtn">提交</button>
+        <!--进度条div-->
+        <div class="upload-component">
+            <div class="upload-close">
+                <span class="upload-close-span">关闭</span>
+            </div>
+            <div class="upload-content">
+                <div class="progress">
+                    <span class="upload-text"></span>
+                    <span class="uploaded"></span>
+                </div>
+                <div class="confirm-cancel">
+                    <span class="confirm">确认</span>
+                    <span class="cancel">取消</span>
+                </div>
+            </div>
+        </div>
+	</body>
+	<script src="easyUploader.js"></script>
+	<script>
+		var uploader = new EasyUplader({
+			pickerId : 'myUpload', 
+			server : 'http://192.168.3.127:8089/yez_easyBuyMall_userSpace/UserPublishController/preUploadTest.easy',
+			submitBtnId : 'mySubmitBtn', 
+			multiple : true,
+			method : 'POST', 
+			isPreview : true,
+            isDropUpload:true,
+			maxlength : 5,
+			maxSize:2,
+            fileType : ['image/png','image/gif','image/jpeg'],
+			onSelectImage : function(file,imgobj){
+                $('form').append(imgobj);
+			    var self = this;
+			    //在body中动态生成div，其中包含img和span删除按钮
+                var itemId='linshi'+Math.floor(Math.random()*100);
+			    /*var itemId = file.name.split('.')[0] + 'item';*/
+                var html = '<div id='+itemId+'><span></span></div>';
+                /*$('.drop_area').append(html);*/
+                $('body').append(html);
+                $('#'+itemId).css({'position':'relative','display':'inline-block','margin-top':'5px'});
+                $('#'+itemId).append(imgobj);
+                var span=$('#'+itemId).find('span');
+                span.addClass('file-temp-btn').html('&times;');
+                span.attr('id',itemId+'item');
+                span.on('click',function(){
+                    self.cancelFile(file.id);
+                    $(this).parent().remove();
+				});
+			},
+            onSelectFile:function(file){
+			    var str = file.name + '这是自定义的参数';
+                this.setFileParam(str);
+            },
+            onError : function(type){
+			    if(type == 'size'){
+                    alert('文件大小超过限制');
+                }else if(type == 'type'){
+			        alert('文件格式有问题');
+                }else if(type=='number'){
+			        alert('文件数量有问题')
+                }else if(type == 'upload'){
+			        alert('發生未知錯誤');
+                }
+            },
+            onBeforeSend : function(){
+                this.setParm({
+                    title : 'This is the first article',
+                    content : 'Content...content...',
+                });
+            },
+            onSubmitSuccess:function(data){
+			    if(data.result == 'success'){
+			        alert('perfect');
+                }
+            }
+        });
+	</script>
+</html>
